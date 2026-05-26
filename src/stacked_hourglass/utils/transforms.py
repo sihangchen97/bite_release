@@ -105,9 +105,9 @@ def crop(img, center, scale, res, rot=0, interp='bilinear'):
     if sf < 2:
         sf = 1
     else:
-        new_size = int(np.math.floor(max(ht, wd) / sf))
-        new_ht = int(np.math.floor(ht / sf))
-        new_wd = int(np.math.floor(wd / sf))
+        new_size = int(np.floor(max(ht, wd) / sf))
+        new_ht = int(np.floor(ht / sf))
+        new_wd = int(np.floor(wd / sf))
         if new_size < 2:
             return torch.zeros(res[0], res[1], img.shape[2]) \
                         if len(img.shape) > 2 else torch.zeros(res[0], res[1])

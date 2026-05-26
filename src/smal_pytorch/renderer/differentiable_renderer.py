@@ -97,18 +97,18 @@ class SilhRenderer(torch.nn.Module):
         bs = focal_lengths.shape[0]
         if pytorch3d.__version__ == '0.2.5':
             cameras = PerspectiveCameras(device=device,
-                focal_length=focal_lengths.repeat((1, 2)), 
-                principal_point=self.principal_point.repeat((bs, 1)), 
-                R=self.R.repeat((bs, 1, 1)), T=self.T.repeat((bs, 1)), 
+                focal_length=focal_lengths.repeat((1, 2)),
+                principal_point=self.principal_point.repeat((bs, 1)),
+                R=self.R.repeat((bs, 1, 1)), T=self.T.repeat((bs, 1)),
                 image_size=self.image_size.repeat((bs, 1)))
-        elif pytorch3d.__version__ == '0.6.1':
+        elif pytorch3d.__version__.startswith('0.6') or pytorch3d.__version__.startswith('0.7'):
             cameras = PerspectiveCameras(device=device, in_ndc=False,
-            focal_length=focal_lengths.repeat((1, 2)), 
-            principal_point=self.principal_point.repeat((bs, 1)), 
-            R=self.R.repeat((bs, 1, 1)), T=self.T.repeat((bs, 1)), 
+            focal_length=focal_lengths.repeat((1, 2)),
+            principal_point=self.principal_point.repeat((bs, 1)),
+            R=self.R.repeat((bs, 1, 1)), T=self.T.repeat((bs, 1)),
             image_size=self.image_size.repeat((bs, 1)))
-        else: 
-            print('this part depends on the version of pytorch3d, code was developed with 0.2.5')
+        else:
+            print(f'this part depends on the version of pytorch3d, code was developed with 0.2.5, current version: {pytorch3d.__version__}')
             raise ValueError
         return cameras
 
@@ -224,11 +224,11 @@ class SilhRenderer(torch.nn.Module):
         if cameras is None:
             cameras = self._get_cam(focal_lengths)
         if pytorch3d.__version__ == '0.2.5':
-            proj_points_orig = cameras.transform_points_screen(points, screen_size)[:, :, [1, 0]]       # used in the original virtuel environment (for cvpr BARC submission) 
-        elif pytorch3d.__version__ == '0.6.1':
-            proj_points_orig = cameras.transform_points_screen(points)[:, :, [1, 0]]        
-        else: 
-            print('this part depends on the version of pytorch3d, code was developed with 0.2.5')
+            proj_points_orig = cameras.transform_points_screen(points, screen_size)[:, :, [1, 0]]       # used in the original virtuel environment (for cvpr BARC submission)
+        elif pytorch3d.__version__.startswith('0.6') or pytorch3d.__version__.startswith('0.7'):
+            proj_points_orig = cameras.transform_points_screen(points)[:, :, [1, 0]]
+        else:
+            print(f'this part depends on the version of pytorch3d, code was developed with 0.2.5, current version: {pytorch3d.__version__}')
             raise ValueError
         # flip, otherwise the 1st and 2nd row are exchanged compared to the ground truth
         proj_points = torch.flip(proj_points_orig, [2])   

@@ -98,7 +98,7 @@ class BITEInferenceModel():        #(nn.Module):
         print(path_model_file_complete)
         assert os.path.isfile(path_model_file_complete)
         print('Loading model weights from file: {}'.format(path_model_file_complete))
-        checkpoint_complete = torch.load(path_model_file_complete)
+        checkpoint_complete = torch.load(path_model_file_complete, weights_only=False)
         state_dict_complete = checkpoint_complete['state_dict']
         self.complete_model.load_state_dict(state_dict_complete)    # , strict=False)        
         self.complete_model = self.complete_model.to(self.device)

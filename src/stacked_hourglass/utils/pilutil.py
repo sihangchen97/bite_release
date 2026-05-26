@@ -253,7 +253,7 @@ def fromimage(im, flatten=False, mode=None):
         RGB-image MxNx3 and an RGBA-image MxNx4.
 
     """
-    if not Image.isImageType(im):
+    if not isinstance(im, Image.Image):
         raise TypeError("Input is not a PIL image.")
 
     if mode is not None:
