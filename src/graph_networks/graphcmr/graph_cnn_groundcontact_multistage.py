@@ -14,11 +14,8 @@ import torch.nn as nn
 import torchvision.models as models
 
 
-import os
-import sys
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..'))
-from src.graph_networks.graphcmr.utils_mesh import Mesh
-from src.graph_networks.graphcmr.graph_layers import GraphResBlock, GraphLinear
+from .utils_mesh import Mesh
+from .graph_layers import GraphResBlock, GraphLinear
 
 
 class GraphCNNMS(nn.Module):
